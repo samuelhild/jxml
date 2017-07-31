@@ -42,9 +42,13 @@ public class XML_Element {
         nElement.setTitle(argv[0]);
         nElement.setDataText(argv[1]);
 
-        parent.addChild(nElement);             //Add new Element as child element
-                                                          
+        if (parent != null) parent.addChild(nElement);             //if there is no parent passed, assume root element
+        else;                                                      //assume root as parent
         return nElement;
+    }
+
+    public XML_Element addElement(String... argv) {
+        return addElement(null, argv);
     }
 
     private void addChild(XML_Element child) {
@@ -81,8 +85,15 @@ public class XML_Element {
         //a function to generate the element as it will be outputed to xml
         //also Generates all child elements
         String openning_tag_text;//TODO cat element_name and attribute text stored in this String
+        openning_tag_text = element_name;
+        if (attributes != null) {
 
-        String raw_element_tmp = open_tag.replace(rchar, element_name /*+ attributes*/);
+            for (int i = 0; i < attributes.length; i++) {
+                openning_tag_text = openning_tag_text + " " + attributes[i].getAttributeText();
+            }
+        }
+
+        String raw_element_tmp = open_tag.replace(rchar, openning_tag_text);
 
         if (element_data != null) raw_element_tmp = raw_element_tmp + "\t" + element_data;
 
