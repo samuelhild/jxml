@@ -42,13 +42,9 @@ public class XML_Element {
         nElement.setTitle(argv[0]);
         nElement.setDataText(argv[1]);
 
-        if (parent != null) parent.addChild(nElement);             //if there is no parent passed, assume root element
-        else;                                                      //assume root as parent
+        parent.addChild(nElement);             //Add new Element as child element
+                                                          
         return nElement;
-    }
-
-    public XML_Element addElement(String... argv) {
-        return addElement(null, argv);
     }
 
     private void addChild(XML_Element child) {
