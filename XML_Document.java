@@ -1,13 +1,10 @@
 /**
  * Created by Samuel Hild on 7/30/2017.
+ * Manages information stored in the document
  */
 
-//TODO move addElement() function to XML_Document
-//TODO change many things
-//
-//
-
 public class XML_Document {
+    //Main vars
     private XML_Element x_elements[];
     private String x_version;
     private String x_encoding;
@@ -101,12 +98,23 @@ public class XML_Document {
         return x_elements;
     }
 
-    public String getDocument() {
-        return assembleDocument();
-    }
+    //returns entire Document
+    public String getDocument() { return assembleDocument(); }
 
     //Prints Entire xml Document
     public void printXmlDocument() {
         System.out.println(assembleDocument());
     }
+
+    //returns XML_Element based on name
+    public XML_Element getElementbyName(String name){
+        for (int i = 0; i < x_elements.length; i++){
+            if (x_elements[i].getTitle() == name){
+                return x_elements[i];
+            }
+        }
+        System.out.println("Error:\nin Function getElementbyName()\nElement named"+name+"not found!");
+        return null;
+    }
+
 }

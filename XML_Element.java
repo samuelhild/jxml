@@ -123,6 +123,8 @@ public class XML_Element {
         return attributes;
     }
 
+    public String getTitle(){ return element_name; }
+
     public String getElement() {
         raw_element = genRawElement();
         return raw_element;
