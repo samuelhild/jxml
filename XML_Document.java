@@ -3,12 +3,12 @@
  */
 
 //TODO move addElement() function to XML_Document
-//
+//TODO change many things
 //
 //
 
 public class XML_Document {
-    private XML_Element Elements[];
+    private XML_Element x_elements[];
     private String x_version;
     private String x_encoding;
     private String x_filename;
@@ -18,29 +18,43 @@ public class XML_Document {
     private final String prolog_end = "'?>\n";
 
     //other vars
-    private boolean PrologBool = true;                              //decides whether or not to print the header to the output file
+    private boolean prolog_bool = true;
 
-    public void addElement(XML_Element parent, String... argv) {
+    //Main Functions
+    public void addElement(XML_Element...elements){
+        /*simply adds an element to the XML_Document
+         *Takes 1-2 arguments:
+         *  1: Element to add *Required
+         *  2: Parent Element *Optional
+         * if no parent argument is passed the element is assumed to be root
+         * and will be placed next to any current root element(s)
+         */
 
-        if (Elements == null) Elements = new XML_Element[1];
+        //temporary id for the new element
+        int temp_id;
 
-        if (parent == null) {                                   //When no parent is passed assume element is root
+        //check if there are any elements
+        if(x_elements == null) x_elements = new XML_Element[0];
 
-        } else {
-            //parent.addChild(new XML_Element());//TODO replace addElement() with addchild in XML_Element()
+        //increase array size by one
+        XML_Element[] a_buffer = x_elements;
+        x_elements = new XML_Element[a_buffer.length + 1];
+
+        //add new element to x_elements
+        x_elements[x_elements.length - 1] = elements[0];
+        temp_id = x_elements.length - 1;
+
+        if (elements.length == 2){
+            //parent passed as second arg
+            elements[1].addChild(x_elements[temp_id]);
         }
-
     }
-
-    /*public XML_Element addElement(String... argv) {
-        return addElement(null, argv);
-    }*/
 
     private String assembleDocument() {
         //creates  an XML document including the header and all elements
         //returns a String xml_file
         String xml_file = "";
-        if (PrologBool) {
+        if (prolog_bool) {
             xml_file = getProlog();                             //Check if Prolog should be outputted to the file
         }
 
@@ -84,7 +98,7 @@ public class XML_Document {
 
     //returns Elements
     public XML_Element[] getElements() {
-        return Elements;
+        return x_elements;
     }
 
     public String getDocument() {
