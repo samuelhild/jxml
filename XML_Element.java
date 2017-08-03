@@ -1,6 +1,6 @@
 /**
  * Created by Samuel Hild on 7/30/2017.
- * <p>
+ *
  * Provides Formatting Information for xml Elements
  */
 public class XML_Element {
@@ -13,14 +13,14 @@ public class XML_Element {
 
     //Element Formatters
     private final String rchar = "^^";                     //Replace Character used for formatting
-    private final String open_tag = "<^^>";
-    private final String close_tag = "</^^>";
+    private final String open_tag = "<^^>\n";
+    private final String close_tag = "\n</^^>";
 
     public void printElement() {
         System.out.println(raw_element);
     }
 
-    public void createRoot(String title_text, String data_text) {
+    public void createRoot(String title_text, String data_text){
         //sets an initial root element for the xml file
         //all other elements are children to this root
         //element.
@@ -43,7 +43,7 @@ public class XML_Element {
         nElement.setDataText(argv[1]);
 
         if (parent != null) parent.addChild(nElement);             //if there is no parent passed, assume root element
-        else ;                                                      //assume root as parent
+        else;                                                      //assume root as parent
         return nElement;
     }
 
@@ -51,14 +51,14 @@ public class XML_Element {
         return addElement(null, argv);
     }
 
-    private void addChild(XML_Element child) {
+    public void addChild(XML_Element child) {
         //adds a child Element to the parent element
-        if (child_elements == null) {
+        if(child_elements == null){
             child_elements = new XML_Element[1];                    //If there are no children, Initialize the variable
             child_elements[0] = child;
-        } else {
+        }else{
             XML_Element[] c_buffer = child_elements;
-            child_elements = new XML_Element[child_elements.length + 1];
+            child_elements = new XML_Element[child_elements.length+1];
             for (int i = 0; i < c_buffer.length; i++) child_elements[i] = c_buffer[i];
             child_elements[c_buffer.length] = child;                //add new child to the end of child array
         }
@@ -84,26 +84,26 @@ public class XML_Element {
     private String genRawElement() {
         //a function to generate the element as it will be outputed to xml
         //also Generates all child elements
-        //output contains no formatting
-        String opening_tag_text;
-        opening_tag_text = element_name;
+        String openning_tag_text;//TODO cat element_name and attribute text stored in this String
+        openning_tag_text = element_name;
         if (attributes != null) {
+
             for (int i = 0; i < attributes.length; i++) {
-                opening_tag_text = opening_tag_text + " " + attributes[i].getAttributeText();
+                openning_tag_text = openning_tag_text + " " + attributes[i].getAttributeText();
             }
         }
 
-        String raw_element_tmp = open_tag.replace(rchar, opening_tag_text);
+        String raw_element_tmp = open_tag.replace(rchar, openning_tag_text);
 
         if (element_data != null) raw_element_tmp = raw_element_tmp + "\t" + element_data;
 
         if (child_elements != null) {
             //only run if there are child elements
             for (int i = 0; i < child_elements.length; i++) {
-                raw_element_tmp = raw_element_tmp + child_elements[i].getElement();
+                raw_element_tmp = raw_element_tmp + "\n\t" + child_elements[i].getElement();
             }
         }
-        raw_element_tmp = raw_element_tmp  + close_tag.replace(rchar, element_name);
+        raw_element_tmp = raw_element_tmp + close_tag.replace(rchar, element_name);
         return raw_element_tmp;
     }
 
