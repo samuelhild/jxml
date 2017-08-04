@@ -54,8 +54,13 @@ public class XML_Document {
         if (prolog_bool) {
             xml_file = getProlog();                             //Check if Prolog should be outputted to the file
         }
-
-        //TODO figure out how to nest elements
+        //loop through each element in document
+        //ignore child elements as they will be copied from element contents
+        for (XML_Element e : x_elements){
+            if (!e.isChild()) {
+                xml_file += e.getFullElement();
+            }
+        }
 
         return xml_file;
     }

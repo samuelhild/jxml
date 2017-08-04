@@ -7,10 +7,10 @@ public class XML_Element {
     //Main Vars
     private String element_name;
     private Attribute attributes[];
-    private String element_data;
     private XML_Element child_elements[];
+    private String element_data;
     private String prefix;
-    private String raw_element;
+    private boolean ischild;
 
     //Element Formatters
     private final String rchar = "^^";                     //Replace Character used for formatting
@@ -58,35 +58,30 @@ public class XML_Element {
         attributes[length_var - 1].setValue(value);
     }
 
-    private String genRawElement() {
-        //a function to generate the element as it will be outputed to xml
-        //also Generates all child elements
-        String openning_tag_text;
-        openning_tag_text = element_name;
-        if (attributes != null) {
+    private String assembleElement(){
+        /*Assembles full element
+        * Includes all child elements
+        * Returns full Element as a String
+        */
+        String rtrn_str = getOpenTag() + "\n";
 
-            for (int i = 0; i < attributes.length; i++) {
-                openning_tag_text = openning_tag_text + " " + attributes[i].getAttributeText();
-            }
+        //for each child element call function recursively
+        for (XML_Element child_e : child_elements){
+            rtrn_str += child_e.assembleElement();
         }
 
-        String raw_element_tmp = open_tag.replace(rchar, openning_tag_text);
-
-        if (element_data != null) raw_element_tmp = raw_element_tmp + "\t" + element_data;
-
-        if (child_elements != null) {
-            //only run if there are child elements
-            for (int i = 0; i < child_elements.length; i++) {
-                raw_element_tmp = raw_element_tmp + "\n\t" + child_elements[i].getElement();
-            }
-        }
-        raw_element_tmp = raw_element_tmp + close_tag.replace(rchar, element_name);
-        return raw_element_tmp;
+        rtrn_str += getCloseTag() + "\n";
+        return null;
     }
-
 
     //getters and setters
     //TODO add getters and setters
+
+    //checks if Element is a child of another element
+    public boolean isChild () { return ischild; }
+
+    //sets Element as a child
+    public void setChild(boolean child_bool) { ischild = child_bool; }
 
     public String getOpenTag(){
         //returns opening tag
@@ -102,6 +97,8 @@ public class XML_Element {
         return c_tag;
     }
 
+    public XML_Element[] getChildren() { return child_elements; }
+
     public void setTitle(String title) {
         element_name = title;
     }
@@ -116,11 +113,11 @@ public class XML_Element {
 
     public String getTitle(){ return element_name; }
 
-    public String getElement() {
-        raw_element = genRawElement();
-        return raw_element;
+    public String getFullElement() {
+        return assembleElement();
     }
 
+    public String getData(){ return element_data; }
 }
 
 class Attribute {
