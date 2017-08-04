@@ -61,31 +61,36 @@ public class XML_Document {
     }
 
     //Setter and Getter Functions
-    //sets/gets filename
-    public String getXmlFilename() {
-        return x_filename;
-    }
 
-    public void setXmlFilename(String filename) {
-        x_filename = filename;
-    }
+    //sets the filename for the xml file
+    public void setXmlFilename(String filename) { x_filename = filename; }
 
-    //sets/gets version
-    public String getVersion() {
-        return x_version;
-    }
-
+    //sets the XML version to use
     public void setVersion(String version) {
         x_version = version;
     }
 
-    //sets/gets encoding
-    public String getEncoding() {
-        return x_encoding;
-    }
+    //decides whether to print header to the file
+    public void setProlog(boolean bool){ prolog_bool = bool; }
 
+    //sets encoding for the XML file
     public void setEncoding(String encoding) {
         x_encoding = encoding;
+    }
+
+    //sets filename
+    public String getXmlFilename() {
+        return x_filename;
+    }
+
+    //gets version
+    public String getVersion() {
+        return x_version;
+    }
+
+    //gets encoding
+    public String getEncoding() {
+        return x_encoding;
     }
 
     //returns entire xml prolog
@@ -100,12 +105,7 @@ public class XML_Document {
 
     //returns entire Document
     public String getDocument() { return assembleDocument(); }
-
-    //Prints Entire xml Document
-    public void printXmlDocument() {
-        System.out.println(assembleDocument());
-    }
-
+        
     //returns XML_Element based on name
     public XML_Element getElementbyName(String name){
         for (int i = 0; i < x_elements.length; i++){
