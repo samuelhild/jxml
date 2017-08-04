@@ -55,7 +55,7 @@ public class XML_Document {
             xml_file = getProlog();                             //Check if Prolog should be outputted to the file
         }
 
-        xml_file = xml_file + getElements();                    //add all Elements to the file
+        //TODO figure out how to nest elements
 
         return xml_file;
     }

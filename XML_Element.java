@@ -4,6 +4,7 @@
  * Provides Formatting Information for xml Elements
  */
 public class XML_Element {
+    //Main Vars
     private String element_name;
     private Attribute attributes[];
     private String element_data;
@@ -13,42 +14,18 @@ public class XML_Element {
 
     //Element Formatters
     private final String rchar = "^^";                     //Replace Character used for formatting
-    private final String open_tag = "<^^>\n";
-    private final String close_tag = "\n</^^>";
+    private final String open_tag = "<^^>";
+    private final String close_tag = "</^^>";
 
-    public void printElement() {
-        System.out.println(raw_element);
-    }
-
-    public void createRoot(String title_text, String data_text){
-        //sets an initial root element for the xml file
-        //all other elements are children to this root
-        //element.
-
-        setTitle(title_text);
-        setDataText(data_text);
-    }
-
-    public XML_Element addElement(XML_Element parent, String... argv) {
-        //TODO This function is interesting, needs revision
-        //adds new Element
-        //arg1 is parent element
-        //arg2 is title text
-        //arg3 is String text
-        //Example: <arg1>
-        //          <arg2>arg3</arg2>
-        //         </arg1>
-        XML_Element nElement = new XML_Element();
-        nElement.setTitle(argv[0]);
-        nElement.setDataText(argv[1]);
-
-        if (parent != null) parent.addChild(nElement);             //if there is no parent passed, assume root element
-        else;                                                      //assume root as parent
-        return nElement;
-    }
-
-    public XML_Element addElement(String... argv) {
-        return addElement(null, argv);
+    public XML_Element(String...argv){
+        /*Constructor
+         * when new XML_Element is created name and data are set from argv
+         * argv represents two arguments
+         *  1. Title of the Element *Required
+         *  2. data text stored in the Element *Optional
+         */
+        element_name = argv[0];
+        if (argv.length >= 2) element_data = argv[1];
     }
 
     public void addChild(XML_Element child) {
@@ -84,7 +61,7 @@ public class XML_Element {
     private String genRawElement() {
         //a function to generate the element as it will be outputed to xml
         //also Generates all child elements
-        String openning_tag_text;//TODO cat element_name and attribute text stored in this String
+        String openning_tag_text;
         openning_tag_text = element_name;
         if (attributes != null) {
 
@@ -110,6 +87,20 @@ public class XML_Element {
 
     //getters and setters
     //TODO add getters and setters
+
+    public String getOpenTag(){
+        //returns opening tag
+        String o_tag;
+        o_tag = open_tag.replaceAll(rchar, getTitle() + " " + getAttributes());
+        return o_tag;
+    }
+
+    public String getCloseTag(){
+        //returns closing tag
+        String c_tag;
+        c_tag = close_tag.replaceAll(rchar, getTitle());
+        return c_tag;
+    }
 
     public void setTitle(String title) {
         element_name = title;
