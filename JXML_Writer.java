@@ -48,7 +48,7 @@ public class JXML_Writer {
         }
         return prolog;
     }
-
+/*
     public void writexml(XML_Document x_doc, String[] argv) {
         //Primary Write function
         //Requires: XML_Document <Document to write>, String <filename>
@@ -57,7 +57,7 @@ public class JXML_Writer {
             //TODO: add functionality
         }
     }
-
+*/
     public void write_raw_xml(String xml_string, String filename, String x_version, String encoding) {
         //Writes raw String to an xml file
         //Does not use any formatting other than the file prolog
