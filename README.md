@@ -7,3 +7,4 @@ The file is read and writen as a plain text file with buffered reader and can
 be editted to fit the xml Format.
 ______________________________________________________________________________
 
+This project is very old and should not be trusted
